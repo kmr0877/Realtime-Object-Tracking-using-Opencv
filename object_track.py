@@ -5,9 +5,6 @@ import os
 import shutil
 import imageio
 
-
-# In[7]:
-
 def process_image(im):
     image, contours, hier = cv2.findContours(im, cv2.RETR_TREE,
                     cv2.CHAIN_APPROX_SIMPLE)
@@ -36,11 +33,4 @@ def process_image(im):
     cv2.drawContours(img, contours, -1, (255, 255, 0), 1)
     return img
 
-
-# In[ ]:
-
-
-
-
-# In[8]:
 
