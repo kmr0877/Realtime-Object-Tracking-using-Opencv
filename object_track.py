@@ -33,4 +33,40 @@ def process_image(im):
     cv2.drawContours(img, contours, -1, (255, 255, 0), 1)
     return img
 
+try:
+    os.mkdir("images")
+except:
+    shutil.rmtree("images")
+    os.mkdir("images")
+
+
+# In[13]:
+
+try:
+    shutil.rmtree('foo.avi')
+except:
+    pass
+
+
+# In[14]:
+
+filename = 'people-walking.mp4'
+vid = imageio.get_reader(filename,  'ffmpeg')
+
+for num in range(vid.get_length()):
+    img = vid.get_data(num)
+    gray_image = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    _,im =  cv2.threshold(gray_image,220,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    im = process_image(im)
+    pylab.imsave("images/"+"image-"+str(num)+".jpg",im)
+
+
+# In[15]:
+
+os.system('ffmpeg -framerate 25 -i images/image-%00d.jpg -r 76 -s 800x600 foo.avi')
+
+
+
+
+
 
