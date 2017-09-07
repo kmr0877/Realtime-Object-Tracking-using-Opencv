@@ -5,21 +5,26 @@ import os
 import shutil
 import imageio
 
-def process_image(im):
-    image, contours, hier = cv2.findContours(im, cv2.RETR_TREE,
-                    cv2.CHAIN_APPROX_SIMPLE)
 
-    # with each contour, draw boundingRect in green
-    # a minAreaRect in red and
-    # a minEnclosingCircle in blue
+
+
+def process_image(im):
+    image, contours, hierarchy= cv2.findContours(im, cv2.RETR_TREE,
+                    cv2.CHAIN_APPROX_SIMPLE)
     for c in contours:
         
         # get the bounding rect
+
         x, y, w, h = cv2.boundingRect(c)
         
         # draw a green rectangle to visualize the bounding rect
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
+       # cv2.putText(img,'Tracked',(x-25,y-10),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2,cv2.CV_AA)
+        #cv2.putText(img,'(x,y)',(x-25,y-10),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2,cv2.LINE_AA)
+        #roi = img[r:r+h,c:c+w]
+        #hsv_roi = cv2.cvtColor(roi,cv2.COLOR_BGR2HSV)
+        #focus_box = cv2.inRange(hsv_roi,np.array((0., 30., 32.)),np.array((180.,255.,255,)))
+        
         # get the min area rect
         rect = cv2.minAreaRect(c)
         box = cv2.boxPoints(rect)
@@ -39,33 +44,30 @@ except:
     shutil.rmtree("images")
     os.mkdir("images")
 
-
-# In[13]:
-
 try:
-    shutil.rmtree('foo.avi')
+    shutil.rmtree('output.avi')
 except:
     pass
-
-
-# In[14]:
-
-filename = 'people-walking.mp4'
-vid = imageio.get_reader(filename,  'ffmpeg')
+filename = 'vtest.avi'
+vid = imageio.get_reader(filename, 'ffmpeg')
 
 for num in range(vid.get_length()):
-    img = vid.get_data(num)
-    gray_image = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    _,im =  cv2.threshold(gray_image,220,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-    im = process_image(im)
-    pylab.imsave("images/"+"image-"+str(num)+".jpg",im)
 
+	img = vid.get_data(num)
+	gray_image = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+	_,im =  cv2.threshold(gray_image,220,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+	im = process_image(im)
+	cv2.imshow('image',im)
+	#fourcc = cv2.VideoWriter_fourcc('M','J','P','G')
+	fourcc = cv2.VideoWriter_fourcc('F','M','P','4')
+	#w = int(vid.get(cv2.VID_PROP_FRAME_WIDTH))
+	#h = int(vid.get(cv2.VID_PROP_FRAME_HEIGHT))
+	#out = cv2.VideoWriter('output.avi',fourcc,20.0,(w,h))
+	out = cv2.VideoWriter('output.avi',-1,20.0,(640,480))
+	#vid.release()
+	pylab.imsave("images/"+"image-"+str(num)+".jpg",im)
 
-# In[15]:
-
-os.system('ffmpeg -framerate 25 -i images/image-%00d.jpg -r 76 -s 800x600 foo.avi')
-
-
+os.system('ffmpeg -framerate 25 -i images/image-%00d.jpg -r 76 -s 800x600 output.avi')
 
 
 
