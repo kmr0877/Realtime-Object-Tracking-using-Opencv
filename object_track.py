@@ -21,9 +21,7 @@ def process_image(im):
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
        # cv2.putText(img,'Tracked',(x-25,y-10),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2,cv2.CV_AA)
         #cv2.putText(img,'(x,y)',(x-25,y-10),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2,cv2.LINE_AA)
-        #roi = img[r:r+h,c:c+w]
-        #hsv_roi = cv2.cvtColor(roi,cv2.COLOR_BGR2HSV)
-        #focus_box = cv2.inRange(hsv_roi,np.array((0., 30., 32.)),np.array((180.,255.,255,)))
+    
         
         # get the min area rect
         rect = cv2.minAreaRect(c)
