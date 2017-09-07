@@ -6,8 +6,6 @@ import shutil
 import imageio
 
 
-
-
 def process_image(im):
     image, contours, hierarchy= cv2.findContours(im, cv2.RETR_TREE,
                     cv2.CHAIN_APPROX_SIMPLE)
@@ -19,7 +17,6 @@ def process_image(im):
         
         # draw a green rectangle to visualize the bounding rect
         cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
-       # cv2.putText(img,'Tracked',(x-25,y-10),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2,cv2.CV_AA)
         #cv2.putText(img,'(x,y)',(x-25,y-10),cv2.FONT_HERSHEY_SIMPLEX,1,(255,255,255),2,cv2.LINE_AA)
     
         
