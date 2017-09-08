@@ -11,7 +11,29 @@ import argparse
 
 import imutils
 import cv2
-
+greenLower = (29, 86, 6)
+greenUpper = (64, 255, 255)
+ 
+# initialize the list of tracked points, the frame counter,
+# and the coordinate deltas
+pts = deque(maxlen=20)
+counter = 0
+(dX, dY) = (0, 0)
+direction = ""
+filename = 'test_sample1.avi'
+vid = imageio.get_reader(filename,  'ffmpeg')
+count = 0
+for num in range(vid.get_length()):
+    try:
+        img = vid.get_data(num)
+        
+        img = cv2.resize(img,(1000,600))
+        gray_image = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+        _,im =  cv2.threshold(gray_image,220,1,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+        
+        image, cnts, hier = cv2.findContours(im,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+        center = None
+	
 def process_image(im):
     image, contours, hierarchy= cv2.findContours(im, cv2.RETR_TREE,
                     cv2.CHAIN_APPROX_SIMPLE)
