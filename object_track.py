@@ -33,6 +33,22 @@ for num in range(vid.get_length()):
         
         image, cnts, hier = cv2.findContours(im,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
         center = None
+	for c in cnts:
+            x, y, w, h = cv2.boundingRect(c)
+
+            # draw a green rectangle to visualize the bounding rect
+            cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+            # get the min area rect
+            rect = cv2.minAreaRect(c)
+            box = cv2.boxPoints(rect)
+
+            # convert all coordinates floating point values to int
+            box = np.int0(box)
+
+            # draw a red 'nghien' rectangle
+            cv2.drawContours(img, [box], 0, (0, 0, 255))
+        # only proceed if at least one contour was found
 	
 def process_image(im):
     image, contours, hierarchy= cv2.findContours(im, cv2.RETR_TREE,
