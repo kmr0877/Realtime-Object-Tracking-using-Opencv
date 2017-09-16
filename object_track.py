@@ -49,6 +49,28 @@ for num in range(vid.get_length()):
             # draw a red 'nghien' rectangle
             cv2.drawContours(img, [box], 0, (0, 0, 255))
         # only proceed if at least one contour was found
+	if len(cnts) > 1:
+            
+            # Change objects for finding trajectory
+            # By changing the value of -2 to any other integer you can change the tracking
+            # if you change it to -3 it will pickup the object which has third largest area  
+            # and so on. but the area of objects will change as you move and rotate the image
+            # So it will not give much accurate results
+            # -2 works best because it is the second largest area. first largest area is usually 
+            # the full video size.
+            c = sorted(cnts, key=cv2.contourArea)[-2]
+            
+            # for tracking most dominant object uncomment this and comment above  line
+       #     c = [contour for contour in sorted(cnts, key=cv2.contourArea)[::-1] if cv2.contourArea(contour)< 450000][0]
+             
+            
+            ((x, y), radius) = cv2.minEnclosingCircle(c)
+            M = cv2.moments(c)
+            center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+            cv2.circle(img, (int(x), int(y)), int(radius),
+                (0, 255, 255), 2)
+            cv2.circle(img, center, 5, (0, 0, 255), -1)
+            pts.appendleft(center)
 	
 def process_image(im):
     image, contours, hierarchy= cv2.findContours(im, cv2.RETR_TREE,
