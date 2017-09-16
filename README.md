@@ -9,8 +9,6 @@ Display the ongoing object trajectories, based on the estimated object locations
 
 ## _Sample Interaction _
 
-
-<iframe width="854" height="480" src="https://youtu.be/8VDF_qqcq3M" frameborder="0" allowfullscreen></iframe>
-
+<iframe width="640" height="360" src="https://www.youtube.com/embed/8VDF_qqcq3M" frameborder="0" allowfullscreen></iframe>
 
 
