@@ -21,16 +21,12 @@ while True:
 	frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	frame = np.dstack([frame, frame, frame])
  
-	#cv2.putText(frame, "Slow Method", (10, 30),
-		#cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)	
- 
 	# show the frame and update the FPS counter
 	cv2.imshow("Frame", frame)
 	cv2.waitKey(1)
 	fps.update()
 
 fps.stop()
-print("elasped time: {:.2f}".format(fps.elapsed()))
 print("approx. FPS: {:.2f}".format(fps.fps()))
  
 
